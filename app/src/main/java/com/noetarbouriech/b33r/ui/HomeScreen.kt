@@ -16,7 +16,7 @@ import com.noetarbouriech.b33r.ui.theme.B33rTheme
 
 @Composable
 fun MyScreen(viewModel: MainViewModel = viewModel(), modifier: Modifier = Modifier) {
-    val uiState by viewModel.uiState.collectAsState();
+    val uiState by viewModel.uiState.collectAsState()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
