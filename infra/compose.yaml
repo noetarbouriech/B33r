@@ -1,0 +1,8 @@
+services:
+  quickwit:
+    image: "quickwit/quickwit:0.8.0"
+    command: "run"
+    volumes:
+      - "./data:/quickwit/qwdata"
+    ports:
+      - "7280:7280"

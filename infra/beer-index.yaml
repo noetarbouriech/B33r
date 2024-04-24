@@ -1,0 +1,32 @@
+version: 0.7
+index_id: beer
+doc_mapping:
+  field_mappings:
+    - name: id
+      type: text
+      tokenizer: default
+      record: position
+      stored: true
+    - name: name
+      type: text
+      fast: true
+      tokenizer: default
+      record: position
+      stored: true
+    - name: description
+      type: text
+      tokenizer: default
+      record: position
+      stored: true
+    - name: abv
+      type: text
+      tokenizer: default
+      record: position
+      stored: true
+    - name: styleId
+      type: i64
+      stored: true
+search_settings:
+  default_search_fields: [name, description]
+indexing_settings:
+  commit_timeout_secs: 30
