@@ -5,4 +5,4 @@ services:
     volumes:
       - "./data:/quickwit/qwdata"
     ports:
-      - "7280:7280"
+      - "3000:7280"

@@ -1,0 +1,17 @@
+services:
+  quickwit:
+    image: "quickwit/quickwit:0.8.0"
+    command: "run"
+    volumes:
+      - "./data:/quickwit/qwdata"
+    expose:
+      - "7280"
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - quickwit
