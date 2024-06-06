@@ -1,31 +1,39 @@
 package com.noetarbouriech.b33r.network
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+@Serializable
+data class ApiResponse(
+    @SerialName("num_hits")
+    var numHits: Int,
+    var hits: List<Beer>
+)
 
 @Serializable
 data class Beer(
     val id: String,
-    val name: String,
-    val nameDisplay: String,
-    val description: String,
-    val abv: String,
-    val ibu: String,
-    val glasswareId: Int,
-    val srmId: Int,
-    val availableId: Int,
-    val styleId: Int,
-    val isOrganic: String,
-    val isRetired: String,
-    val labels: Labels,
-    val status: String,
-    val statusDisplay: String,
-    val originalGravity: String,
-    val createDate: String,
-    val updateDate: String,
-    val glass: Glass,
-    val srm: Srm,
-    val available: Available,
-    val style: Style
+    val name: String? = null,
+    val nameDisplay: String? = null,
+    val description: String? = null,
+    val abv: String? = null,
+    val ibu: String? = null,
+    val glasswareId: Int? = null,
+    val srmId: Int? = null,
+    val availableId: Int? = null,
+    val styleId: Int? = null,
+    val isOrganic: String? = null,
+    val isRetired: String? = null,
+    val labels: Labels? = null,
+    val status: String? = null,
+    val statusDisplay: String? = null,
+    val originalGravity: String? = null,
+    val createDate: String? = null,
+    val updateDate: String? = null,
+    val glass: Glass? = null,
+    val srm: Srm? = null,
+    val available: Available? = null,
+    val style: Style? = null
 )
 
 @Serializable
@@ -65,24 +73,12 @@ data class Style(
     val categoryId: Int,
     val category: Category,
     val name: String,
-    val shortName: String,
-    val description: String,
-    val ibuMin: String,
-    val ibuMax: String,
-    val abvMin: String,
-    val abvMax: String,
-    val srmMin: String,
-    val srmMax: String,
-    val ogMin: String,
-    val fgMin: String,
-    val fgMax: String,
-    val createDate: String,
-    val updateDate: String
+    val shortName: String? = null,
+    val description: String? = null,
 )
 
 @Serializable
 data class Category(
     val id: Int,
     val name: String,
-    val createDate: String
 )

@@ -23,9 +23,10 @@ fun MyScreen(viewModel: MainViewModel = viewModel(), modifier: Modifier = Modifi
         verticalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxSize()
     ) {
-        Button(onClick = { viewModel.incrementTest() }) {
-            Text(text = uiState.test.toString(), modifier = modifier)
+        Button(onClick = { viewModel.getData() }) {
+            Text(text = "test api", modifier = modifier)
         }
+        uiState.test?.name?.let { Text(text = it) }
     }
 }
 

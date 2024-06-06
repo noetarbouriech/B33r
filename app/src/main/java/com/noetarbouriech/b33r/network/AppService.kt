@@ -7,18 +7,22 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import okhttp3.MediaType.Companion.toMediaType
 
 
-private const val BASE_URL = "https://google.com"
+// TODO use env var
+private const val BASE_URL = "http://162.38.112.116:3000/api/v1/beer/"
+
+// Configure the JSON parser with ignoreUnknownKeys
+val json = Json { ignoreUnknownKeys = true }
 
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(
-        Json.asConverterFactory(
+        json.asConverterFactory(
             "application/json; charset=UTF8".toMediaType()))
     .baseUrl(BASE_URL)
     .build()
 
 interface MyApiService {
-    @GET("test")
-    suspend fun getData(): List<Beer>
+    @GET("search?query=*")
+    suspend fun getData(): ApiResponse
 }
 
 object MyApi {
