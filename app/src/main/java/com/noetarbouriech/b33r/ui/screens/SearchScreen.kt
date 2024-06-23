@@ -1,13 +1,18 @@
 package com.noetarbouriech.b33r.ui.screens
 
 import android.annotation.SuppressLint
+import android.content.res.Resources.Theme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.noetarbouriech.b33r.ui.SearchViewModel
 import com.noetarbouriech.b33r.ui.components.BeerList
@@ -33,7 +39,6 @@ fun SearchScreen(viewModel: SearchViewModel = viewModel(), modifier: Modifier = 
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
         modifier = Modifier.fillMaxSize()
-
     ) {
             SearchBar(
                 leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search") },
@@ -43,10 +48,15 @@ fun SearchScreen(viewModel: SearchViewModel = viewModel(), modifier: Modifier = 
                 active = uiState.isSearching,
                 onActiveChange = { viewModel.onToggleSearch() },
             ) {
-                if (uiState.results.isNullOrEmpty()) {
+                if (uiState.results.isNullOrEmpty() || uiState.searchText.isEmpty()) {
                     Text(
                         text = "No results \uD83D\uDE1E",
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.onSurface,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentWidth()
+                            .padding(top = 24.dp)
                     )
                 } else {
                     BeerList(uiState.results!!)
