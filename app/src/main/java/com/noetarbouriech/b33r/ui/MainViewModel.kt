@@ -19,7 +19,7 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             val result: ApiResponse = MyApi.retrofitService.getBeers("")
             _uiState.update { currentState ->
-                currentState.copy(test = result.hits[(0..<result.hits.size).random()])
+                currentState.copy(test = result.hits.subList(0,4))
             }
         }
     }

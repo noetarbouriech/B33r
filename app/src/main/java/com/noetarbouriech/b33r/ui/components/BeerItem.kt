@@ -1,8 +1,10 @@
 package com.noetarbouriech.b33r.ui.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SportsBar
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
@@ -17,10 +19,10 @@ fun BeerItem(beer: Beer, score: Int? = null) {
         trailingContent = { if (score != null) Text("$score⭐") },
         leadingContent = {
             Icon(
-                Icons.Filled.Star,
+                Icons.Filled.SportsBar,
                 contentDescription = "test"
             )
         }
     )
-    Divider()
+    HorizontalDivider()
 }
