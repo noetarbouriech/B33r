@@ -18,16 +18,31 @@ class SearchViewModel: ViewModel() {
     val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
 
     fun onSearchChange(search: String) {
-        Log.println(Log.ASSERT, "", search)
+        _uiState.update { currentState ->
+            currentState.copy(searchText = search)
+        }
+        performSearch(search)
+    }
+
+    private fun performSearch(query: String) {
         viewModelScope.launch {
-            val result: ApiResponse = MyApi.retrofitService.getBeers(search)
-            _uiState.update { currentState ->
-                currentState.copy(results = result.hits, searchText = search)
+            try {
+                val result: ApiResponse = MyApi.retrofitService.getBeers("name:$query*")
+                _uiState.update { currentState ->
+                    currentState.copy(results = result.hits)
+                }
+            } catch (e: Exception) {
+                Log.e("SearchViewModel", "Search failed", e)
+                _uiState.update { currentState ->
+                    currentState.copy(results = emptyList())
+                }
             }
         }
     }
 
     fun onToggleSearch() {
-        onSearchChange("stout")
+        _uiState.update { currentState ->
+            currentState.copy(isSearching = !currentState.isSearching)
+        }
     }
 }

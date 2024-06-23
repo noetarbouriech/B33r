@@ -13,7 +13,7 @@ data class ApiResponse(
 @Serializable
 data class Beer(
     val id: String,
-    val name: String? = null,
+    val name: String,
     val nameDisplay: String? = null,
     val description: String? = null,
     val abv: String? = null,

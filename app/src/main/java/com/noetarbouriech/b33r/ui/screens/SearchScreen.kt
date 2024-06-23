@@ -1,11 +1,9 @@
 package com.noetarbouriech.b33r.ui.screens
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,10 +16,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.noetarbouriech.b33r.ui.SearchViewModel
+import com.noetarbouriech.b33r.ui.components.BeerList
 import com.noetarbouriech.b33r.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,12 +39,18 @@ fun SearchScreen(viewModel: SearchViewModel = viewModel(), modifier: Modifier = 
                 leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search") },
                 query = uiState.searchText,
                 onQueryChange = viewModel::onSearchChange,
-                onSearch = viewModel::onSearchChange,
+                onSearch = { viewModel.onSearchChange(uiState.searchText) },
                 active = uiState.isSearching,
                 onActiveChange = { viewModel.onToggleSearch() },
             ) {
-                Text(text = uiState.results?.get(0)?.name.orEmpty(), color = Color.White)
-                Text(text= "test")
+                if (uiState.results.isNullOrEmpty()) {
+                    Text(
+                        text = "No results \uD83D\uDE1E",
+                        color = Color.White
+                    )
+                } else {
+                    BeerList(uiState.results!!)
+                }
             }
     }
 }
