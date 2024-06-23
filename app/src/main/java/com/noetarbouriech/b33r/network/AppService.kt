@@ -5,6 +5,7 @@ import retrofit2.http.GET
 import kotlinx.serialization.json.*
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.http.Query
 
 
 // TODO use env var
@@ -21,8 +22,8 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface MyApiService {
-    @GET("search?query=*")
-    suspend fun getData(): ApiResponse
+    @GET("search")
+    suspend fun getBeers(@Query("query") search: String): ApiResponse
 }
 
 object MyApi {
