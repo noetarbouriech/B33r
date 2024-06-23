@@ -11,12 +11,10 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.noetarbouriech.b33r.ui.theme.AppTheme
 
@@ -24,12 +22,14 @@ data class NavItem(val label: String, val icon: ImageVector, val route: String)
 
 @Composable
 fun NavBar(navItems: List<NavItem>, navController: NavHostController) {
-    var selectedItem by remember { mutableIntStateOf(0) }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    val selectedItem = navItems.indexOfFirst { it.route == currentRoute }
 
     NavigationBar (
         containerColor = MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.primary,
-    ){
+    ) {
         navItems.forEachIndexed { index, item ->
             NavigationBarItem(
                 icon = { Icon(item.icon, contentDescription = item.label) },
@@ -37,14 +37,23 @@ fun NavBar(navItems: List<NavItem>, navController: NavHostController) {
                 selected = selectedItem == index,
                 onClick = {
                     if (selectedItem != index) {
-                        selectedItem = index
-                        navController.navigate(item.label)
+                        navController.navigate(item.route) {
+                            // Pop up to the start destination to avoid building up a large back stack
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            // Avoid multiple copies of the same destination when reselecting the same item
+                            launchSingleTop = true
+                            // Restore state when reselecting a previously selected item
+                            restoreState = true
+                        }
                     }
-                          },
+                },
             )
         }
     }
 }
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun NavBarPreview() {
