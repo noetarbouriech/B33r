@@ -12,12 +12,15 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.noetarbouriech.b33r.ui.screens.HomeScreen
 import com.noetarbouriech.b33r.ui.components.NavBar
 import com.noetarbouriech.b33r.ui.components.NavItem
+import com.noetarbouriech.b33r.ui.screens.BeerScreen
 import com.noetarbouriech.b33r.ui.screens.SearchScreen
 import com.noetarbouriech.b33r.ui.screens.ShareScreen
 import com.noetarbouriech.b33r.ui.theme.AppTheme
@@ -44,8 +47,23 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable("Home") { HomeScreen() }
-                        composable("Search") { SearchScreen() }
+                        composable("Search") { SearchScreen(navController = navController) }
                         composable("Share") { ShareScreen() }
+                        composable(
+                            "beer/{beerId}",
+                            arguments = listOf(
+                                navArgument("beerId") {
+                                    type = NavType.StringType
+                                    nullable = false
+                                }
+                            )
+                        ) { backStackEntry ->
+                            BeerScreen(
+                                beerId = backStackEntry.arguments?.getString("beerId") ?: "",
+                                navController = navController
+                                )
+                        }
+
                     }
                 }
             }
