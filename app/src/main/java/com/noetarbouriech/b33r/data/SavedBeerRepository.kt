@@ -6,7 +6,7 @@ interface SavedBeerRepository {
     /**
      * Retrieve all the beers from the the given data source.
      */
-    fun getAllBeersStream(): Flow<List<SavedBeer>>
+    fun getAllBeersStream(): Flow<List<SavedBeer?>>
 
     /**
      * Retrieve an beer from the given data source that matches with the [id].

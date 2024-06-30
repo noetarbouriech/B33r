@@ -7,9 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Casino
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.SportsBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -22,6 +24,7 @@ import com.noetarbouriech.b33r.data.OfflineBeersRepository
 import com.noetarbouriech.b33r.data.SavedBeerDatabase
 import com.noetarbouriech.b33r.data.SavedBeerRepository
 import com.noetarbouriech.b33r.ui.BeerViewModel
+import com.noetarbouriech.b33r.ui.MainViewModel
 import com.noetarbouriech.b33r.ui.screens.HomeScreen
 import com.noetarbouriech.b33r.ui.components.NavBar
 import com.noetarbouriech.b33r.ui.components.NavItem
@@ -48,8 +51,8 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val navItems = listOf(
                     NavItem("Home", Icons.Filled.Home, "Home"),
-                    NavItem("Search", Icons.Filled.Search, "Search"),
-                    NavItem("Share", Icons.Filled.Share, "Share")
+                    NavItem("My Beers", Icons.Filled.SportsBar, "My Beers"),
+                    NavItem("Random", Icons.Filled.Casino, "Random")
                 )
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -60,9 +63,16 @@ class MainActivity : ComponentActivity() {
                         startDestination = "Home",
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable("Home") { HomeScreen() }
-                        composable("Search") { SearchScreen(navController = navController) }
-                        composable("Share") { ShareScreen() }
+                        composable("Home") {
+                            val viewModel: MainViewModel = viewModel(
+                                initializer = {
+                                    MainViewModel(beerRepository = repository)
+                                }
+                            )
+                            HomeScreen(viewModel = viewModel, navController = navController)
+                        }
+                        composable("My Beers") { SearchScreen(navController = navController) }
+                        composable("Random") { ShareScreen() }
                         composable(
                             "beer/{beerId}",
                             arguments = listOf(

@@ -25,16 +25,15 @@ class BeerViewModel (savedStateHandle: SavedStateHandle, private val beerReposit
         viewModelScope.launch {
             val result: ApiResponse = MyApi.retrofitService.getBeers("id:$beerId")
             _uiState.update { currentState ->
-                currentState.copy(beer = result.hits[0])
+                currentState.copy(beer = result.hits.firstOrNull())
             }
         }
     }
 
     private fun getSavedBeer() {
         viewModelScope.launch {
-            _uiState.update { currentState ->
-                currentState.copy(savedBeer = beerRepository.getBeerStream(beerId).first() )
-            }
+            val savedBeer = beerRepository.getBeerStream(beerId).first()
+            _uiState.value = _uiState.value.copy(savedBeer = savedBeer)
         }
     }
 
@@ -49,39 +48,43 @@ class BeerViewModel (savedStateHandle: SavedStateHandle, private val beerReposit
 
     fun setPlanning() {
         viewModelScope.launch {
-            val beer = SavedBeer(
+            val beer = uiState.value.beer ?: return@launch
+            val newBeer = SavedBeer(
                 id = beerId,
-                name = uiState.value.beer!!.name,
-                type = uiState.value.beer!!.style!!.name,
+                name = beer.name,
+                type = beer.style?.name ?: "",
                 planning = true,
-                score = null
+                score = null, // You might want to handle this based on UI interaction
+                image = beer.labels!!.large
             )
-            beerRepository.insertBeer(beer)
+            beerRepository.insertBeer(newBeer)
             _uiState.update { currentState ->
-                currentState.copy(savedBeer = beer)
+                currentState.copy(savedBeer = newBeer)
             }
         }
     }
 
     fun setTried(score: Int) {
         viewModelScope.launch {
-            val beer = SavedBeer(
+            val beer = uiState.value.beer ?: return@launch
+            val newBeer = SavedBeer(
                 id = beerId,
-                name = uiState.value.beer!!.name,
-                type = uiState.value.beer!!.style!!.name,
+                name = beer.name,
+                type = beer.style?.name ?: "",
                 planning = false,
-                score = score
+                score = score,
+                image = beer.labels!!.large
             )
-            beerRepository.insertBeer(beer)
+            beerRepository.insertBeer(newBeer)
             _uiState.update { currentState ->
-                currentState.copy(savedBeer = beer)
+                currentState.copy(savedBeer = newBeer)
             }
         }
     }
+
 
     init {
         getData()
         getSavedBeer()
     }
-
 }

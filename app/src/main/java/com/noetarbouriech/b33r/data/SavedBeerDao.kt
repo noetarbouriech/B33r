@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface SavedBeerDao {
     @Query("SELECT * FROM saved_beers ORDER BY score DESC")
-    fun getAllBeers(): Flow<List<SavedBeer>>
+    fun getAllBeers(): Flow<List<SavedBeer?>>
 
     @Query("SELECT * FROM saved_beers WHERE id = :id")
     fun getBeer(id: String): Flow<SavedBeer?>

@@ -84,7 +84,10 @@ fun BeerSheet(showBottomSheet: MutableState<Boolean>, beer: SavedBeer?, setNull:
                     value = sliderPosition,
                     steps = 4,
                     valueRange = 0f..5f,
-                    onValueChange = { sliderPosition = it },
+                    onValueChange = {
+                        sliderPosition = it
+                        setTried(sliderPosition.roundToInt())
+                                    },
                     modifier = Modifier.padding(bottom = 8.dp).padding(horizontal = 8.dp)
                 )
                 Text(

@@ -9,5 +9,6 @@ data class SavedBeer(
     val name: String,
     val type: String,
     val planning: Boolean,
-    val score: Int? = null
+    val score: Int? = null,
+    val image: String
 )
