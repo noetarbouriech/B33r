@@ -26,7 +26,7 @@ fun BeerItem(beer: Beer, navController: NavController, score: Int? = null) {
             )
         },
         modifier = Modifier.clickable {
-            navController.navigate("beer/" + beer.id)
+            navController.navigate("beer/${beer.id}")
         }
     )
     HorizontalDivider()

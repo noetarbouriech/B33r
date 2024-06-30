@@ -57,9 +57,8 @@ fun HomeScreen(viewModel: MainViewModel = viewModel(), modifier: Modifier = Modi
                 modifier = Modifier.height(281.dp).fillMaxWidth().maskClip(MaterialTheme.shapes.extraLarge),
                 painter = rememberAsyncImagePainter(model = beer?.labels?.large),
                 contentDescription = "test",
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.FillBounds
             )
-
         }
         Text(
             text = "Last reviewed",

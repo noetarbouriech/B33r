@@ -38,7 +38,7 @@ import com.noetarbouriech.b33r.ui.components.BeerSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BeerScreen(viewModel: BeerViewModel = viewModel(), beerId: String, navController: NavController, modifier: Modifier = Modifier) {
+fun BeerScreen(viewModel: BeerViewModel = viewModel(), beerId: String, navController: NavController) {
     val uiState by viewModel.uiState.collectAsState()
     val showBottomSheet = remember { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
@@ -94,6 +94,12 @@ fun BeerScreen(viewModel: BeerViewModel = viewModel(), beerId: String, navContro
         }
     ) { innerPadding ->
         BeerDescription(uiState.beer, Modifier.padding(innerPadding))
-        BeerSheet(showBottomSheet)
+        BeerSheet(
+            showBottomSheet,
+            beer = uiState.savedBeer,
+            setNull = { viewModel.setNull() },
+            setPlanning = { viewModel.setPlanning() },
+            setTried = { int -> viewModel.setTried(int) }
+        )
     }
 }
