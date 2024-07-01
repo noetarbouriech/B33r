@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Casino
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.SportsBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
@@ -31,7 +29,7 @@ import com.noetarbouriech.b33r.ui.components.NavBar
 import com.noetarbouriech.b33r.ui.components.NavItem
 import com.noetarbouriech.b33r.ui.screens.BeerScreen
 import com.noetarbouriech.b33r.ui.screens.MyBeersScreen
-import com.noetarbouriech.b33r.ui.screens.ShareScreen
+import com.noetarbouriech.b33r.ui.screens.RandomScreen
 import com.noetarbouriech.b33r.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
@@ -80,7 +78,7 @@ class MainActivity : ComponentActivity() {
                             )
                             MyBeersScreen(viewModel = viewModel, navController = navController)
                         }
-                        composable("Random") { ShareScreen() }
+                        composable("Random") { RandomScreen(navController = navController) }
                         composable(
                             "beer/{beerId}",
                             arguments = listOf(
