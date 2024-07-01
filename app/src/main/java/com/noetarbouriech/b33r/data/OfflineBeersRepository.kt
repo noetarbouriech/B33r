@@ -3,7 +3,9 @@ package com.noetarbouriech.b33r.data
 import kotlinx.coroutines.flow.Flow
 
 class OfflineBeersRepository(private val beerDao: SavedBeerDao) : SavedBeerRepository {
-    override fun getAllBeersStream(): Flow<List<SavedBeer?>> = beerDao.getAllBeers()
+    override fun getAllTriedBeersStream(): Flow<List<SavedBeer?>> = beerDao.getAllTriedBeers()
+
+    override fun getAllPlanningBeersStream(): Flow<List<SavedBeer?>> = beerDao.getAllPlanningBeers()
 
     override fun getBeerStream(id: String): Flow<SavedBeer?> = beerDao.getBeer(id)
 

@@ -2,7 +2,6 @@ package com.noetarbouriech.b33r.ui
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.noetarbouriech.b33r.data.SavedBeerRepository
 import com.noetarbouriech.b33r.network.ApiResponse
@@ -10,7 +9,6 @@ import com.noetarbouriech.b33r.network.MyApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -21,7 +19,7 @@ class MainViewModel(val beerRepository: SavedBeerRepository) : ViewModel() {
 
     fun refreshData() {
         viewModelScope.launch {
-            beerRepository.getAllBeersStream().collect { beers ->
+            beerRepository.getAllTriedBeersStream().collect { beers ->
                 Log.d("MainViewModel", "Beers received: $beers")
                 _uiState.value = _uiState.value.copy(favorites = beers)
             }

@@ -13,11 +13,21 @@ import androidx.navigation.NavController
 import com.noetarbouriech.b33r.network.Beer
 
 @Composable
-fun BeerItem(beer: Beer, navController: NavController, score: Int? = null) {
+fun BeerItem(
+    id: String,
+    name: String,
+    style: String? = null,
+    navController: NavController,
+    score: Int? = null
+) {
 
     ListItem(
-        headlineContent = { Text(beer.name) },
-        overlineContent = { Text(beer.style?.category?.name!!) },
+        headlineContent = { Text(name) },
+        overlineContent = {
+            if (style != null) {
+                Text(style)
+            }
+        },
         trailingContent = { if (score != null) Text("$score⭐") },
         leadingContent = {
             Icon(
@@ -26,7 +36,7 @@ fun BeerItem(beer: Beer, navController: NavController, score: Int? = null) {
             )
         },
         modifier = Modifier.clickable {
-            navController.navigate("beer/${beer.id}")
+            navController.navigate("beer/${id}")
         }
     )
     HorizontalDivider()

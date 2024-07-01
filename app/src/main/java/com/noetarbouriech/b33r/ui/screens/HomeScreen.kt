@@ -81,7 +81,8 @@ fun HomeScreen(viewModel: MainViewModel = viewModel(), navController: NavControl
         }
         Text(
             text = "Your favorites",
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(12.dp)
         )
         if (uiState.favorites != null && uiState.favorites!!.isNotEmpty()) {
             HorizontalMultiBrowseCarousel (

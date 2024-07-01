@@ -9,6 +9,11 @@ import com.noetarbouriech.b33r.network.Beer
 @Composable
 fun BeerList(beers: List<Beer>, navController: NavController) {
     LazyColumn {
-        items(beers) { beer -> BeerItem(beer, navController = navController) }
+        items(beers) { beer -> BeerItem(
+            id = beer.id,
+            name = beer.name,
+            style = beer.style!!.name,
+            navController = navController
+        ) }
     }
 }

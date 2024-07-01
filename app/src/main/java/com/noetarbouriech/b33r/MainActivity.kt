@@ -25,11 +25,12 @@ import com.noetarbouriech.b33r.data.SavedBeerDatabase
 import com.noetarbouriech.b33r.data.SavedBeerRepository
 import com.noetarbouriech.b33r.ui.BeerViewModel
 import com.noetarbouriech.b33r.ui.MainViewModel
+import com.noetarbouriech.b33r.ui.MyBeersViewModel
 import com.noetarbouriech.b33r.ui.screens.HomeScreen
 import com.noetarbouriech.b33r.ui.components.NavBar
 import com.noetarbouriech.b33r.ui.components.NavItem
 import com.noetarbouriech.b33r.ui.screens.BeerScreen
-import com.noetarbouriech.b33r.ui.screens.SearchScreen
+import com.noetarbouriech.b33r.ui.screens.MyBeersScreen
 import com.noetarbouriech.b33r.ui.screens.ShareScreen
 import com.noetarbouriech.b33r.ui.theme.AppTheme
 
@@ -71,7 +72,14 @@ class MainActivity : ComponentActivity() {
                             )
                             HomeScreen(viewModel = viewModel, navController = navController)
                         }
-                        composable("My Beers") { SearchScreen(navController = navController) }
+                        composable("My Beers") {
+                            val viewModel: MyBeersViewModel = viewModel(
+                                initializer = {
+                                    MyBeersViewModel(beerRepository = repository)
+                                }
+                            )
+                            MyBeersScreen(viewModel = viewModel, navController = navController)
+                        }
                         composable("Random") { ShareScreen() }
                         composable(
                             "beer/{beerId}",

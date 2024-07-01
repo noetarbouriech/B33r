@@ -4,9 +4,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface SavedBeerRepository {
     /**
-     * Retrieve all the beers from the the given data source.
+     * Retrieve all tried beers from the the given data source.
      */
-    fun getAllBeersStream(): Flow<List<SavedBeer?>>
+    fun getAllTriedBeersStream(): Flow<List<SavedBeer?>>
+
+    /**
+     * Retrieve all planning to try beers from the the given data source.
+     */
+    fun getAllPlanningBeersStream(): Flow<List<SavedBeer?>>
 
     /**
      * Retrieve an beer from the given data source that matches with the [id].
