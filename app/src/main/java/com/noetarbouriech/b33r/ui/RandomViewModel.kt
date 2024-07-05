@@ -13,6 +13,10 @@ class RandomBeerViewModel : ViewModel() {
     private val _randomBeerId = MutableStateFlow<String?>(null)
     val randomBeerId: StateFlow<String?> = _randomBeerId.asStateFlow()
 
+    fun resetRandomBeerId() {
+        _randomBeerId.value = null
+    }
+
     fun fetchRandomBeerId() {
         viewModelScope.launch {
             try {

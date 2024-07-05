@@ -25,14 +25,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.noetarbouriech.b33r.ui.RandomBeerViewModel
 import com.noetarbouriech.b33r.utils.ShakeDetector
 
 @Composable
-fun RandomScreen(navController: NavController, viewModel: RandomBeerViewModel = viewModel(), modifier: Modifier = Modifier) {
+fun RandomScreen(modifier: Modifier = Modifier, navController: NavController, viewModel: RandomBeerViewModel = viewModel()) {
     val randomBeerId by viewModel.randomBeerId.collectAsState(null)
 
     val context = LocalContext.current
@@ -54,6 +53,7 @@ fun RandomScreen(navController: NavController, viewModel: RandomBeerViewModel = 
     if (randomBeerId != null) {
         LaunchedEffect(randomBeerId) {
             navController.navigate("beer/$randomBeerId")
+            viewModel.resetRandomBeerId() // Reset the randomBeerId after navigation to prevent multiple navigations
         }
     }
 
@@ -65,7 +65,7 @@ fun RandomScreen(navController: NavController, viewModel: RandomBeerViewModel = 
         Card(
             elevation = CardDefaults.elevatedCardElevation(),
             modifier = Modifier.fillMaxWidth().padding(18.dp)
-        ){
+        ) {
             Column(
                 modifier = Modifier.padding(24.dp).fillMaxWidth()
             ) {

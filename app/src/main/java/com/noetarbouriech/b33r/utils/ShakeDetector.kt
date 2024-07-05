@@ -11,6 +11,7 @@ class ShakeDetector(context: Context) : SensorEventListener {
     private val sensorManager: SensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     private val accelerometer: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
     private var lastUpdate: Long = 0
+    private var lastShakeTime: Long = 0
     private var lastX: Float = 0f
     private var lastY: Float = 0f
     private var lastZ: Float = 0f
@@ -48,7 +49,11 @@ class ShakeDetector(context: Context) : SensorEventListener {
                 val accelerationDifference = Math.abs(x + y + z - lastX - lastY - lastZ) / timeDifference * 10000
 
                 if (accelerationDifference > SHAKE_THRESHOLD) {
-                    listener?.invoke()
+                    val shakeElapsedTime = currentTime - lastShakeTime
+                    if (shakeElapsedTime > SHAKE_COOLDOWN) {
+                        listener?.invoke()
+                        lastShakeTime = currentTime
+                    }
                 }
 
                 lastX = x
@@ -62,5 +67,6 @@ class ShakeDetector(context: Context) : SensorEventListener {
     companion object {
         private const val SHAKE_THRESHOLD = 800
         private const val SHAKE_THRESHOLD_INTERVAL = 100
+        private const val SHAKE_COOLDOWN = 2000 // 2 seconds cooldown between shake events
     }
 }

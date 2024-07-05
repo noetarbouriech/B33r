@@ -38,7 +38,7 @@ import com.noetarbouriech.b33r.ui.components.BeerList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(viewModel: MainViewModel = viewModel(), navController: NavController, modifier: Modifier = Modifier) {
+fun HomeScreen(viewModel: MainViewModel = viewModel(), navController: NavController) {
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(viewModel) {
